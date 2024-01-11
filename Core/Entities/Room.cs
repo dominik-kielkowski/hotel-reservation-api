@@ -1,8 +1,7 @@
 ﻿namespace Core.Entities
 {
-    public class Room
+    public class Room : BaseEntity
     {
-        public int Id { get; set; }
         public int HotelId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

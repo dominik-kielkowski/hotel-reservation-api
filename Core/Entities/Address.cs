@@ -1,8 +1,7 @@
 ﻿namespace Core.Entities
 {
-    public class Address
+    public class Address : BaseEntity
     {
-        public int Id { get; set; }
         public int HotelId { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
