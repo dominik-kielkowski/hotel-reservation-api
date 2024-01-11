@@ -6,9 +6,4 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Specyfications\" />
-  </ItemGroup>
-
 </Project>
