@@ -11,6 +11,6 @@ namespace Core.Entities
         public string Name { get; set; }
         public string Descryption {  get; set; }
         public Address Address { get; set; }
-        public Room Rooms { get; set; }
+        public List<Room> Rooms { get; set; }
     }
 }
