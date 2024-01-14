@@ -9,11 +9,11 @@ namespace HotelReservationWebsite.Controllers
 {
     public class HotelController : BaseApiController
     {
-        private readonly IGenericRepository<Hotel> _hotelRepo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HotelController(IGenericRepository<Hotel> hotelRepo)
+        public HotelController(IUnitOfWork unitOfWork)
         {
-            _hotelRepo = hotelRepo;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet("{id}")]
@@ -21,7 +21,7 @@ namespace HotelReservationWebsite.Controllers
         {
             var spec = new HotelsWithRoomsAndAddressSpecification(id);
 
-            var hotel = await _hotelRepo.GetEntityWithSpecAsync(spec);
+            var hotel = await _unitOfWork.Repository<Hotel>().GetEntityWithSpecAsync(spec);
 
             return hotel.ToDto();
         }
@@ -31,27 +31,30 @@ namespace HotelReservationWebsite.Controllers
         {
             var spec = new HotelsWithRoomsAndAddressSpecification(parameters);
 
-            var hotels = await _hotelRepo.GetEntityListWithSpecAsync(spec);
+            var hotels = await _unitOfWork.Repository<Hotel>().GetEntityListWithSpecAsync(spec);
 
             return hotels.Select(x => x.ToDto()).ToList();
         }
 
         [HttpPost]
-        public void AddHotel(Hotel hotel)
+        public async Task AddHotel(Hotel hotel)
         {
-            _hotelRepo.Add(hotel);
+            _unitOfWork.Repository<Hotel>().Add(hotel);
+            await _unitOfWork.Complete();
         }
 
         [HttpPut]
-        public void UpdateHotel(Hotel hotel)
+        public async Task UpdateHotel(Hotel hotel)
         {
-            _hotelRepo.Update(hotel);
+            _unitOfWork.Repository<Hotel>().Update(hotel);
+            await _unitOfWork.Complete();
         }
 
         [HttpDelete]
-        public void DeleteHotel(Hotel hotel)
+        public async Task DeleteHotel(Hotel hotel)
         {
-            _hotelRepo.Delete(hotel);
+            _unitOfWork.Repository<Hotel>().Delete(hotel);
+            await _unitOfWork.Complete();
         }
     }
 }

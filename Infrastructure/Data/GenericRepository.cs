@@ -37,7 +37,6 @@ namespace Infrastructure.Data
         public void Add(T entity)
         {
             _context.Set<T>().Add(entity);
-            _context.SaveChanges();
         }
 
         public void Delete(T entity)
