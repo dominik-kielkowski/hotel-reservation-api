@@ -1,5 +1,11 @@
-﻿using Core.Common;
+﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Core.Entities;
+using Core.Interfaces;
 
 namespace Infrastructure.Data
 {
@@ -25,7 +31,7 @@ namespace Infrastructure.Data
 
         public IGenericRepository<T> Repository<T>() where T : BaseEntity
         {
-            if (_repositories == null)
+            if(_repositories == null)
             {
                 _repositories = new Hashtable();
             }
@@ -41,7 +47,7 @@ namespace Infrastructure.Data
                 _repositories.Add(type, repositoryInstance);
             }
 
-            return (IGenericRepository<T>)_repositories[type];
+            return (IGenericRepository<T>) _repositories[type];
         }
     }
 }

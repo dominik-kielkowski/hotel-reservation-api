@@ -1,24 +1,30 @@
-using Core.Common;
-using Core.User;
-using HotelReservationWebsite.Common;
-using HotelReservationWebsite.Hotels;
-using HotelReservationWebsite.User;
+using API.Extensions;
+using Core.Entities.Identity;
+using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Identity;
+using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Writers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+builder.Services.AddDbContext<WebsiteDbContext>(opt =>
+{
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddControllers();
-builder.Services.AddIdentityServices(builder.Configuration);
-builder.Services.AddApplicationServices(builder.Configuration);
-
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -38,10 +44,8 @@ app.MapControllers();
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
-var context =services.GetRequiredService<WebsiteDbContext>();
 var identityContext = services.GetRequiredService<AppIdentityDbContext>();
-await context.Database.MigrateAsync();
-await identityContext.Database.MigrateAsync();
+var userManager = services.GetRequiredService<UserManager<AppUser>>();
 
 app.Run();
 
