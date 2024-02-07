@@ -48,5 +48,3 @@ var identityContext = services.GetRequiredService<AppIdentityDbContext>();
 var userManager = services.GetRequiredService<UserManager<AppUser>>();
 
 app.Run();
-
-public partial class Program { }

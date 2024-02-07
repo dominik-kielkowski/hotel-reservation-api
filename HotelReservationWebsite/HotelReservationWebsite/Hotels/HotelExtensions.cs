@@ -13,7 +13,7 @@ namespace HotelReservationWebsite.Hotels
             {
                 Id = hotel.Id,
                 Name = hotel.Name,
-                Description = hotel.Description,
+                Descryption = hotel.Description,
                 Country = hotel.Address.Country,
                 City = hotel.Address.City,
                 Street = hotel.Address.Street,

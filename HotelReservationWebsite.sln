@@ -11,12 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastru
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A34AFB17-451F-4AC4-9362-8AD5866419CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.Tests", "..\HotelReservation.Tests\HotelReservation.Tests.csproj", "{689DF289-5839-465B-8D4C-001CCFBC0DE0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BA21C4EC-3CEA-4423-831C-2C1821B16314}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FD92F56A-026A-419A-B021-FEDC60E3F64E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,19 +33,9 @@ Global
 		{A34AFB17-451F-4AC4-9362-8AD5866419CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A34AFB17-451F-4AC4-9362-8AD5866419CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A34AFB17-451F-4AC4-9362-8AD5866419CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{689DF289-5839-465B-8D4C-001CCFBC0DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{689DF289-5839-465B-8D4C-001CCFBC0DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{689DF289-5839-465B-8D4C-001CCFBC0DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{689DF289-5839-465B-8D4C-001CCFBC0DE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{FAF74ADB-3154-4DDC-A8B8-F3617F4F37BC} = {BA21C4EC-3CEA-4423-831C-2C1821B16314}
-		{BE6B921B-D031-4A35-8F6B-13EAE1BCCFC4} = {BA21C4EC-3CEA-4423-831C-2C1821B16314}
-		{99E64A47-6019-4C41-8B18-299CA4371A33} = {BA21C4EC-3CEA-4423-831C-2C1821B16314}
-		{689DF289-5839-465B-8D4C-001CCFBC0DE0} = {FD92F56A-026A-419A-B021-FEDC60E3F64E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {268F803E-E84B-43C7-B088-C1B25CE77D87}
