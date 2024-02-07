@@ -44,3 +44,5 @@ await context.Database.MigrateAsync();
 await identityContext.Database.MigrateAsync();
 
 app.Run();
+
+public partial class Program { }
