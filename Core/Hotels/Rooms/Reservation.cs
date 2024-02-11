@@ -6,7 +6,7 @@ namespace Core.Hotels.Rooms
     {
         public DateTime Begin { get; set; }
         public DateTime End { get; set; }
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public int RoomId { get; set; }
     }
 }

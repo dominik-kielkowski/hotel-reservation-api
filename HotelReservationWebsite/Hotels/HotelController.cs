@@ -9,7 +9,6 @@ namespace HotelReservationWebsite.Hotels
     public class HotelController : BaseApiController
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<Hotel> _genericRepository;
 
         public HotelController(IUnitOfWork unitOfWork)
         {
