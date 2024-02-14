@@ -15,6 +15,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Moq;
+using Core.User;
+using System.Net.Http.Headers;
+using HotelReservationWebsite.User;
+using Azure;
 
 namespace HotelReservation.Tests
 {
@@ -28,30 +32,72 @@ namespace HotelReservation.Tests
         public async Task MakeReservation_ValidReservation_Success()
         {
             // Arrange
-            var room = new Room()
+            var hotel = new Hotel()
             {
-                Id = 1,
                 Name = "Test",
                 Description = "Test",
-                Price = 123,
-                RoomSize = 10,
+                Address = new Address() { },
+                Rooms = new List<Room>
+                {
+                    new Room {
+                        Id = 1,
+                        Name = "Test",
+                        Description = "Test",
+                        Price = 123,
+                        RoomSize = 10
+                    }
+                }
+            };
+
+            var user = new AppUser()
+            {
+                Id = Guid.NewGuid().ToString(),
+                DisplayName = "Test",
+                Email = "Test@test.com",
+                Password = "Pa$$w0rd"
+            };
+
+            var loginDto = new LoginDto
+            {
+                Email = "Test@test.com",
+                Password = "Pa$$w0rd"
             };
 
             var reservation = new Reservation()
             {
+                RoomId = 1,
                 Begin = DateTime.UtcNow.AddHours(1),
-                End = DateTime.UtcNow.AddHours(2)
+                End = DateTime.UtcNow.AddHours(2),
+                CustomerId = Guid.Parse(user.Id)
             };
 
+
             // Act
-            HttpResponseMessage postRoomResponse = await HttpClient.PostAsJsonAsync("api/Room", room);
-            HttpResponseMessage postReservationResponse = await HttpClient.PostAsJsonAsync("api/1/reservations", reservation);
 
-            // Assert
-            Assert.NotNull(postRoomResponse);
+            HttpResponseMessage postUserResponse = await HttpClient.PostAsJsonAsync("api/Account/register", user);
+
+            HttpResponseMessage loginResponse = await HttpClient.PostAsJsonAsync("api/Account/login", loginDto);
+
+            // Check if login was successful
+            if (loginResponse.IsSuccessStatusCode)
+            {
+                // Read the response content as UserDto
+                var userDto = await loginResponse.Content.ReadFromJsonAsync<UserDto>();
+
+                // Set the authorization token for subsequent requests
+                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userDto.Token);
+
+                // Register the user
+
+                // Post the hotel
+                HttpResponseMessage postRoomResponse = await HttpClient.PostAsJsonAsync("api/Hotel", hotel);
+
+                // Post the reservation
+                HttpResponseMessage postReservationResponse = await HttpClient.PostAsJsonAsync("api/Room/1/reservations", reservation);
+
+                // Assert
+                Assert.True(postReservationResponse.IsSuccessStatusCode);
+            }
         }
-
     }
 }
-
-
