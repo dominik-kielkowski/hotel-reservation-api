@@ -17,8 +17,8 @@ using Microsoft.AspNetCore.Routing;
 using Moq;
 using Core.User;
 using System.Net.Http.Headers;
-using HotelReservationWebsite.User;
 using Azure;
+using Application.Users;
 
 namespace HotelReservation.Tests
 {

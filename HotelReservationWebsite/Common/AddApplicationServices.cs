@@ -1,11 +1,13 @@
-﻿using Core.Common;
+﻿using Application.Common;
+using Core.Common;
 using Core.User;
 using Infrastructure.Data;
 using Infrastructure.Services;
-using Microsoft.AspNetCore.Mvc;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
-namespace HotelReservationWebsite.Hotels
+namespace HotelReservationWebsite.Common
 {
     public static class ApplicationServicesExtensions
     {
@@ -19,6 +21,8 @@ namespace HotelReservationWebsite.Hotels
 
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddApplication();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             return services;

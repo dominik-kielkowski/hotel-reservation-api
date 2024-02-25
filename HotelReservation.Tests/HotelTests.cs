@@ -1,7 +1,7 @@
-﻿using Core.Hotels;
+﻿using Application.Hotels;
+using Core.Hotels;
 using Core.Hotels.Rooms;
 using FluentAssertions;
-using HotelReservationWebsite.Hotels;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;

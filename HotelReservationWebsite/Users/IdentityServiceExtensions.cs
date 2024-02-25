@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace HotelReservationWebsite.User
+namespace HotelReservationWebsite.Users
 {
     public static class IdentityServiceExtensions
     {

@@ -1,11 +1,12 @@
-﻿using Core.User;
+﻿using Application.Users;
+using Core.User;
 using HotelReservationWebsite.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace HotelReservationWebsite.User
+namespace HotelReservationWebsite.Users
 {
     public class AccountController : BaseApiController
     {
