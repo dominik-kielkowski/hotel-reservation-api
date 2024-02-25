@@ -17,14 +17,9 @@ namespace Infrastructure.Data
             return await _context.Set<T>().FindAsync(id);
         }
 
-        public async Task<T> GetEntityWithSpecAsync(ISpecification<T> spec)
+        public DbSet<T> AccessContext()
         {
-            return await ApplySpecification(spec).FirstOrDefaultAsync();
-        }
-
-        public async Task<IReadOnlyList<T>> GetEntityListWithSpecAsync(ISpecification<T> spec)
-        {
-            return await ApplySpecification(spec).ToListAsync();
+            return _context.Set<T>();
         }
 
         public void Add(T entity)
@@ -41,11 +36,6 @@ namespace Infrastructure.Data
         {
             _context.Set<T>().Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
-        }
-
-        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
-        {
-            return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
         }
     }
 }

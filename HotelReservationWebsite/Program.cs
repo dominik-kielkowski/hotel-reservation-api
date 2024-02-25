@@ -1,8 +1,7 @@
 using Core.Common;
 using Core.User;
 using HotelReservationWebsite.Common;
-using HotelReservationWebsite.Hotels;
-using HotelReservationWebsite.User;
+using HotelReservationWebsite.Users;
 using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
