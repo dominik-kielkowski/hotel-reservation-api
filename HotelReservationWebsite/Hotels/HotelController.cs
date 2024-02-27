@@ -6,6 +6,7 @@ using Core.Hotels;
 using HotelReservationWebsite.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelReservationWebsite.Hotels
 {
@@ -23,7 +24,12 @@ namespace HotelReservationWebsite.Hotels
         [HttpGet("{id}")]
         public async Task<ActionResult<HotelDto>> GetHotelById(int id)
         {
-            var hotel = await _unitOfWork.Repository<Hotel>().GetByIdAsync(id);
+            var hotel = await _unitOfWork.Repository<Hotel>().AccessContext().Include(h => h.Address).Include(h => h.Rooms).SingleOrDefaultAsync(h => h.Id == id);
+
+            if (hotel == null)
+            {
+                throw new ArgumentException("Hotel not found");
+            }
 
             return hotel.ToDto();
         }
