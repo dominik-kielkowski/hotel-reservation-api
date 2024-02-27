@@ -5,7 +5,9 @@ using Infrastructure.Data;
 using Infrastructure.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Infrastructure.Caching;
 
 namespace HotelReservationWebsite.Common
 {
@@ -24,6 +26,8 @@ namespace HotelReservationWebsite.Common
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddApplication();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddMemoryCache();
+            services.AddSingleton<ICacheService, CacheService>();
 
             return services;
         }

@@ -19,6 +19,8 @@ using Core.User;
 using System.Net.Http.Headers;
 using Azure;
 using Application.Users;
+using Application.Hotels.Rooms.AddReservation;
+using Castle.Core.Resource;
 
 namespace HotelReservation.Tests
 {
@@ -71,6 +73,7 @@ namespace HotelReservation.Tests
                 CustomerId = Guid.Parse(user.Id)
             };
 
+            var command = new AddReservationCommand(1, Guid.Parse(user.Id), reservation);
 
             // Act
 

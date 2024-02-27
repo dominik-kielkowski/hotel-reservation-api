@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FD2107DC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{60561225-22D3-45CB-8DB9-DB0E6D059BC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.Tests", "HotelReservation.Tests\HotelReservation.Tests.csproj", "{3161E915-80DF-4168-AC95-85C0F8773A90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.IntegrationTests", "HotelReservation.Tests\HotelReservation.IntegrationTests.csproj", "{3161E915-80DF-4168-AC95-85C0F8773A90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "..\Application\Application.csproj", "{E7AD4C0E-1F3D-4AC6-B499-80EF89FE64E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "..\Application\Application.csproj", "{E7AD4C0E-1F3D-4AC6-B499-80EF89FE64E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

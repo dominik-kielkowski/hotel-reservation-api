@@ -18,7 +18,6 @@ namespace HotelReservation.Tests
         protected HttpClient client;
         private readonly PostgreSqlContainer _postgresContainer = new PostgreSqlBuilder()
                 .WithImage("postgres:latest")
-                .WithPortBinding(62848)
                 .WithDatabase("HotelReservationWebsite")
                 .WithUsername("postgres")
                 .WithPassword("postgres")
