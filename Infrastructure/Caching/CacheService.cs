@@ -1,15 +1,18 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using System;
+using System.Text;
+using System.Text.Json;
 
 namespace Infrastructure.Caching
 {
     public class CacheService : ICacheService
     {
         private static readonly TimeSpan DefaultExpiration = TimeSpan.FromMinutes(5);
-        private readonly IMemoryCache _memoryCache;
+        private readonly IDistributedCache _distributedCache;
 
-        public CacheService(IMemoryCache memoryCache)
+        public CacheService(IDistributedCache distributedCache)
         {
-            _memoryCache = memoryCache;
+            _distributedCache = distributedCache;
         }
 
         public async Task<T> GetOrCreateAsync<T>(string key,
@@ -17,16 +20,33 @@ namespace Infrastructure.Caching
             TimeSpan? expiration = null,
             CancellationToken cancellationToken = default)
         {
-            T result = await _memoryCache.GetOrCreateAsync(
-                key,
-                entry =>
-                {
-                    entry.SetAbsoluteExpiration(expiration ?? DefaultExpiration);
+            var cachedData = await _distributedCache.GetAsync(key, cancellationToken);
 
-                    return factory(cancellationToken);
-                });
+            if (cachedData != null)
+            {
+                return Deserialize<T>(cachedData);
+            }
+
+            T result = await factory(cancellationToken);
+
+            var options = new DistributedCacheEntryOptions();
+            options.SetAbsoluteExpiration(expiration ?? DefaultExpiration);
+
+            await _distributedCache.SetAsync(key, Serialize(result), options, cancellationToken);
 
             return result;
+        }
+
+        private byte[] Serialize<T>(T value)
+        {
+            string serializedValue = JsonSerializer.Serialize(value);
+            return Encoding.UTF8.GetBytes(serializedValue);
+        }
+
+        private T Deserialize<T>(byte[] bytes)
+        {
+            string serializedValue = Encoding.UTF8.GetString(bytes);
+            return JsonSerializer.Deserialize<T>(serializedValue);
         }
     }
 }
