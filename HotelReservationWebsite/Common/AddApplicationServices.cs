@@ -21,6 +21,13 @@ namespace HotelReservationWebsite.Common
                 opt.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddStackExchangeRedisCache(redisOptions =>
+            {
+                string connection = config.GetConnectionString("Redis");
+
+                redisOptions.Configuration = connection;
+            });
+
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddMediatR(Assembly.GetExecutingAssembly());
