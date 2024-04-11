@@ -6,7 +6,7 @@ services:
     image: ${DOCKER_REGISTRY-}hotelreservationwebsite
     build:
       context: .
-      dockerfile: HotelReservationWebsite/Dockerfile
+      dockerfile: src\HotelReservationWebsite/Dockerfile
     ports:
       - "5000:5000"
       - "5001:5001"

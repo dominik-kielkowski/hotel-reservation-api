@@ -33,7 +33,6 @@ namespace HotelReservation.Tests
         [Fact]
         public async Task MakeReservation_ValidReservation_Success()
         {
-            // Arrange
             var hotel = new Hotel()
             {
                 Name = "Test",
@@ -73,34 +72,25 @@ namespace HotelReservation.Tests
                 CustomerId = Guid.Parse(user.Id)
             };
 
-            var command = new AddReservationCommand(1, Guid.Parse(user.Id), reservation);
-
-            // Act
+            AddReservationCommand command = new AddReservationCommand(1, Guid.Parse(user.Id), reservation);
 
             HttpResponseMessage postUserResponse = await HttpClient.PostAsJsonAsync("api/Account/register", user);
 
+            Assert.True(postUserResponse.IsSuccessStatusCode);
+
             HttpResponseMessage loginResponse = await HttpClient.PostAsJsonAsync("api/Account/login", loginDto);
 
-            // Check if login was successful
-            if (loginResponse.IsSuccessStatusCode)
-            {
-                // Read the response content as UserDto
-                var userDto = await loginResponse.Content.ReadFromJsonAsync<UserDto>();
+            Assert.True(loginResponse.IsSuccessStatusCode);
 
-                // Set the authorization token for subsequent requests
-                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userDto.Token);
+            var userDto = await loginResponse.Content.ReadFromJsonAsync<UserDto>();
 
-                // Register the user
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userDto.Token);
 
-                // Post the hotel
-                HttpResponseMessage postRoomResponse = await HttpClient.PostAsJsonAsync("api/Hotel", hotel);
+            HttpResponseMessage postRoomResponse = await HttpClient.PostAsJsonAsync("api/Hotel", hotel);
 
-                // Post the reservation
-                HttpResponseMessage postReservationResponse = await HttpClient.PostAsJsonAsync("api/Room/1/reservations", reservation);
+            HttpResponseMessage postReservationResponse = await HttpClient.PostAsJsonAsync("api/Room/1/reservations", reservation);
 
-                // Assert
-                Assert.True(postReservationResponse.IsSuccessStatusCode);
-            }
+            Assert.True(postReservationResponse.IsSuccessStatusCode);
         }
     }
 }
