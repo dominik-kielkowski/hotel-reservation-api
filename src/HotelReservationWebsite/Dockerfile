@@ -10,9 +10,9 @@ WORKDIR /src
 COPY ["HotelReservationWebsite/HotelReservationWebsite.csproj", "HotelReservationWebsite/"]
 COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 COPY ["Core/Core.csproj", "Core/"]
-RUN dotnet restore "HotelReservationWebsite/HotelReservationWebsite.csproj"
+RUN dotnet restore "src/HotelReservationWebsite/HotelReservationWebsite.csproj"
 COPY . .
-WORKDIR "/src/HotelReservationWebsite"
+WORKDIR "HotelReservationWebsite"
 RUN dotnet build "HotelReservationWebsite.csproj" -c Release -o /app/build
 
 FROM build AS publish
