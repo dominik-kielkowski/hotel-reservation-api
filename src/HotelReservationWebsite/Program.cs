@@ -22,11 +22,9 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -37,7 +35,7 @@ app.MapControllers();
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
-var context =services.GetRequiredService<WebsiteDbContext>();
+var context = services.GetRequiredService<WebsiteDbContext>();
 var identityContext = services.GetRequiredService<AppIdentityDbContext>();
 await context.Database.MigrateAsync();
 await identityContext.Database.MigrateAsync();
