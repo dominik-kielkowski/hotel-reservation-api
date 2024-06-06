@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservationWebsite", "src\HotelReservationWebsite\HotelReservationWebsite.csproj", "{FAF74ADB-3154-4DDC-A8B8-F3617F4F37BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "src\HotelReservationWebsite\API.csproj", "{FAF74ADB-3154-4DDC-A8B8-F3617F4F37BC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Core\Core.csproj", "{BE6B921B-D031-4A35-8F6B-13EAE1BCCFC4}"
 EndProject

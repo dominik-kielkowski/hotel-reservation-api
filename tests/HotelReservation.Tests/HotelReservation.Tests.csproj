@@ -30,7 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Application\Application.csproj" />
     <ProjectReference Include="..\..\src\Core\Core.csproj" />
-    <ProjectReference Include="..\..\src\HotelReservationWebsite\HotelReservationWebsite.csproj" />
+    <ProjectReference Include="..\..\src\HotelReservationWebsite\API.csproj" />
   </ItemGroup>
 
 </Project>
