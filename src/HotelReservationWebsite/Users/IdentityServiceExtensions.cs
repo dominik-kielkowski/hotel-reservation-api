@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 namespace HotelReservationWebsite.Users
 {
@@ -15,7 +16,7 @@ namespace HotelReservationWebsite.Users
         {
             services.AddDbContext<AppIdentityDbContext>(opt =>
             {
-                opt.UseNpgsql(config.GetConnectionString("IdentityConnection"));
+                opt.UseSqlServer(config.GetConnectionString("IdentityConnection")).EnableSensitiveDataLogging();
             });
 
             services.AddIdentityCore<AppUser>(opt =>
@@ -41,7 +42,26 @@ namespace HotelReservationWebsite.Users
 
             services.AddAuthorization();
 
+            try
+            {
+                var serviceProvider = services.BuildServiceProvider();
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+                    dbContext.Database.Migrate();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Database migration failed");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+
             return services;
         }
     }
 }
+            

@@ -1,45 +1,46 @@
-using Core.Common;
-using Core.User;
 using HotelReservationWebsite.Common;
 using HotelReservationWebsite.Users;
-using Infrastructure.Data;
-using Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+try
+{
+    Serilog.Debugging.SelfLog.Enable(Console.Error);
+    var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddIdentityServices(builder.Configuration);
-builder.Services.AddApplicationServices(builder.Configuration);
+    builder.Services.AddControllers();
+    builder.Services.AddApplicationServices(builder.Configuration);
+    builder.Services.AddIdentityServices(builder.Configuration);
 
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+    builder.Host.UseSerilog((context, configuration) =>
+        configuration.ReadFrom.Configuration(context.Configuration)
+    );
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    var app = builder.Build();
 
-var app = builder.Build();
+    // Configure the HTTP request pipeline.
 
-// Configure the HTTP request pipeline.
+    app.UseSerilogRequestLogging();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+    app.UseHttpsRedirection();
 
-app.UseHttpsRedirection();
+    app.UseAuthentication();
+    app.UseAuthorization();
 
-app.UseAuthentication();
-app.UseAuthorization();
+    app.MapControllers();
 
-app.MapControllers();
-
-using var scope = app.Services.CreateScope();
-var services = scope.ServiceProvider;
-var context = services.GetRequiredService<WebsiteDbContext>();
-var identityContext = services.GetRequiredService<AppIdentityDbContext>();
-await context.Database.MigrateAsync();
-await identityContext.Database.MigrateAsync();
-
-app.Run();
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application startup failed");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
 
 public partial class Program { }

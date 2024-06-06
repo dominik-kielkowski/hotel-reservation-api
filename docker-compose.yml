@@ -15,15 +15,14 @@ services:
   
   hotelreservationdatabase:
     container_name: hotelreservationdatabase 
-    image: postgres:latest
-    environment: 
-      - POSTGRES_DB=HotelReservationWebsite
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - ACCEPT_EULA=Y
     ports:
-      - 5432:5432 
+      - "1433:1433"
     volumes:
-      - hotelreservationdatabase:/var/lib/postgresql/data
+      - hotelreservationdatabase:/var/opt/mssql
 
   redis:
     container_name: redis

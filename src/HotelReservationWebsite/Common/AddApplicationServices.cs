@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Infrastructure.Caching;
+using Serilog;
 
 namespace HotelReservationWebsite.Common
 {
@@ -18,7 +19,7 @@ namespace HotelReservationWebsite.Common
         {
             services.AddDbContext<WebsiteDbContext>(opt =>
             {
-                opt.UseNpgsql(config.GetConnectionString("DefaultConnection"));
+                opt.UseSqlServer(config.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging();
             });
 
             services.AddStackExchangeRedisCache(redisOptions =>
@@ -35,6 +36,24 @@ namespace HotelReservationWebsite.Common
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddMemoryCache();
             services.AddSingleton<ICacheService, CacheService>();
+
+            try
+            {
+                var serviceProvider = services.BuildServiceProvider();
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<WebsiteDbContext>();
+                    dbContext.Database.Migrate();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Database migration failed");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
 
             return services;
         }
