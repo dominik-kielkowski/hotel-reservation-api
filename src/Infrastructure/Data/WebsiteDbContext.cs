@@ -1,5 +1,5 @@
-﻿using Core.Hotels;
-using Core.Hotels.Rooms;
+﻿using Core.Entities.Hotels;
+using Core.Entities.Rooms;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 

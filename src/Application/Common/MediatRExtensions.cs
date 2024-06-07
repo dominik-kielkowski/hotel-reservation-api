@@ -7,7 +7,7 @@ namespace Application.Common
 {
     public static class MediatRExtensions
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection ConfigureMediatR(this IServiceCollection services)
         {
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(QueryCachingPipelineBehaviour<,>));
 

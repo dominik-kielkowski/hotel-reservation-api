@@ -14,8 +14,7 @@ namespace HotelReservationWebsite.Common
 {
     public static class ApplicationServicesExtensions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services,
-            IConfiguration config)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<WebsiteDbContext>(opt =>
             {
@@ -25,14 +24,13 @@ namespace HotelReservationWebsite.Common
             services.AddStackExchangeRedisCache(redisOptions =>
             {
                 string connection = config.GetConnectionString("Redis");
-
                 redisOptions.Configuration = connection;
             });
 
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddApplication();
+            services.ConfigureMediatR();
+
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddMemoryCache();
             services.AddSingleton<ICacheService, CacheService>();
@@ -57,5 +55,6 @@ namespace HotelReservationWebsite.Common
 
             return services;
         }
+
     }
 }

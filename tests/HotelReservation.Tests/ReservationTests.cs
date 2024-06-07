@@ -1,5 +1,4 @@
-﻿using Core.Hotels.Rooms;
-using Core.Hotels;
+﻿using Core.Hotels;
 using FluentAssertions;
 using HotelReservationWebsite.Hotels;
 using System;
@@ -21,6 +20,7 @@ using Azure;
 using Application.Users;
 using Application.Hotels.Rooms.AddReservation;
 using Castle.Core.Resource;
+using Core.Entities.Rooms;
 
 namespace HotelReservation.Tests
 {

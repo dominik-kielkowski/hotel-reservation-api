@@ -1,4 +1,4 @@
-﻿using Core.Hotels.Rooms;
+﻿using Core.Entities.Rooms;
 using Microsoft.AspNetCore.Identity;
 
 namespace Core.User

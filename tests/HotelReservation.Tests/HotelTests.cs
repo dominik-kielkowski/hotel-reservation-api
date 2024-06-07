@@ -1,6 +1,6 @@
 ﻿using Application.Hotels;
+using Core.Entities.Rooms;
 using Core.Hotels;
-using Core.Hotels.Rooms;
 using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
