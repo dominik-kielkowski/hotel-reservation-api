@@ -1,13 +1,9 @@
 ﻿using Application.Hotels;
+using Core.Entities.Hotels;
 using Core.Entities.Rooms;
-using Core.Hotels;
 using FluentAssertions;
-using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
-using Testcontainers.PostgreSql;
 using Xunit;
 
 namespace HotelReservation.Tests

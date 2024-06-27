@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Application.Hotels.Rooms.GetRoomById
 {
-    public sealed record GetRoomByIdQuery(int roomId) : IQuery<RoomDto>;
+    public sealed record GetRoomByIdQuery(int roomId) : IRequest<RoomDto>;
 }

@@ -1,26 +1,11 @@
-﻿using Core.Hotels;
-using FluentAssertions;
-using HotelReservationWebsite.Hotels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net.Http.Json;
 using Xunit;
-using Core.Common;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Moq;
 using Core.User;
 using System.Net.Http.Headers;
-using Azure;
 using Application.Users;
-using Application.Hotels.Rooms.AddReservation;
-using Castle.Core.Resource;
 using Core.Entities.Rooms;
+using Core.Entities.Hotels;
+using Application.Hotels.Rooms.AddReservation;
 
 namespace HotelReservation.Tests
 {
@@ -72,7 +57,7 @@ namespace HotelReservation.Tests
                 CustomerId = Guid.Parse(user.Id)
             };
 
-            AddReservationCommand command = new AddReservationCommand(1, Guid.Parse(user.Id), reservation);
+            MakeReservationCommand command = new MakeReservationCommand(1, Guid.Parse(user.Id), reservation);
 
             HttpResponseMessage postUserResponse = await HttpClient.PostAsJsonAsync("api/Account/register", user);
 

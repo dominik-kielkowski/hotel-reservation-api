@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Hotels.Rooms.DeleteRoom
 {
-    public sealed class DeleteRoomCommandHandler
+    public sealed class DeleteRoomCommandHandler : IRequest<DeleteRoomCommand>
     {
             private readonly IUnitOfWork _unitOfWork;
 
