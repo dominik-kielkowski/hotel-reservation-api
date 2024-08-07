@@ -1,11 +1,11 @@
-﻿using Application.Hotels.Rooms.AddReservation;
+﻿using API.Common;
 using Application.Hotels.Rooms.AddRoom;
 using Application.Hotels.Rooms.DeleteRoom;
 using Application.Hotels.Rooms.GetRoomById;
 using Application.Hotels.Rooms.GetRooms;
+using Application.Hotels.Rooms.MakeReservation;
 using Application.Hotels.Rooms.UpdateRoom;
 using Core.Entities.Rooms;
-using HotelReservationWebsite.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

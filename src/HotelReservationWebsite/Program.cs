@@ -1,5 +1,6 @@
-using HotelReservationWebsite.Common;
-using HotelReservationWebsite.Users;
+using API.Common;
+using API.Users;
+using Infrastructure.Messaging;
 using Serilog;
 
 try

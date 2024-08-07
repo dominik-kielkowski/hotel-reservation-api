@@ -3,14 +3,12 @@ using Core.Common;
 using Core.User;
 using Infrastructure.Data;
 using Infrastructure.Services;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using Infrastructure.Caching;
 using Serilog;
+using Infrastructure.Messaging;
 
-namespace HotelReservationWebsite.Common
+namespace API.Common
 {
     public static class ApplicationServicesExtensions
     {
@@ -30,6 +28,7 @@ namespace HotelReservationWebsite.Common
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.ConfigureMediatR();
+            services.AddMassTransitWithRabbitMQ();
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddMemoryCache();

@@ -1,17 +1,17 @@
-version: '3.4'
-
 services:
   hotelreservationwebsite:
     container_name: hotelreservationwebsite
     image: ${DOCKER_REGISTRY-}hotelreservationwebsite
     build:
       context: .
-      dockerfile: src\HotelReservationWebsite/Dockerfile
+      dockerfile: src/HotelReservationWebsite/Dockerfile
     ports:
       - "5000:5000"
       - "5001:5001"
     volumes:
-      -  hotelreservationwebsite:/app/data
+      - hotelreservationwebsite:/app/data
+    networks:
+      - shared-network
   
   hotelreservationdatabase:
     container_name: hotelreservationdatabase 
@@ -23,13 +23,36 @@ services:
       - "1433:1433"
     volumes:
       - hotelreservationdatabase:/var/opt/mssql
+    networks:
+      - shared-network
 
   redis:
     container_name: redis
     image: redis:latest
     ports:
       - "6379:6379"
+    networks:
+      - shared-network
+  
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    networks:
+      - shared-network
 
 volumes:
   hotelreservationwebsite:
   hotelreservationdatabase:
+  rabbitmq:
+
+networks:
+  shared-network:
+    external: true
