@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "src\HotelReservationWebsite\API.csproj", "{FAF74ADB-3154-4DDC-A8B8-F3617F4F37BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.API", "src\HotelReservationWebsite\HotelReservation.API.csproj", "{FAF74ADB-3154-4DDC-A8B8-F3617F4F37BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Core\Core.csproj", "{BE6B921B-D031-4A35-8F6B-13EAE1BCCFC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.Core", "src\Core\HotelReservation.Core.csproj", "{BE6B921B-D031-4A35-8F6B-13EAE1BCCFC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{99E64A47-6019-4C41-8B18-299CA4371A33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.Infrastructure", "src\Infrastructure\HotelReservation.Infrastructure.csproj", "{99E64A47-6019-4C41-8B18-299CA4371A33}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A34AFB17-451F-4AC4-9362-8AD5866419CC}"
 EndProject
@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{60561225-22D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.Tests", "tests\HotelReservation.Tests\HotelReservation.Tests.csproj", "{3161E915-80DF-4168-AC95-85C0F8773A90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{E7AD4C0E-1F3D-4AC6-B499-80EF89FE64E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.Application", "src\Application\HotelReservation.Application.csproj", "{E7AD4C0E-1F3D-4AC6-B499-80EF89FE64E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

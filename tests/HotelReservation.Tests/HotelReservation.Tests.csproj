@@ -28,9 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Application\Application.csproj" />
-    <ProjectReference Include="..\..\src\Core\Core.csproj" />
-    <ProjectReference Include="..\..\src\HotelReservationWebsite\API.csproj" />
+    <ProjectReference Include="..\..\src\Application\HotelReservation.Application.csproj" />
+    <ProjectReference Include="..\..\src\Core\HotelReservation.Core.csproj" />
+    <ProjectReference Include="..\..\src\HotelReservationWebsite\HotelReservation.API.csproj" />
   </ItemGroup>
 
 </Project>

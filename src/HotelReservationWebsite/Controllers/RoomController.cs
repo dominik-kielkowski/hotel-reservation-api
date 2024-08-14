@@ -57,8 +57,15 @@ namespace API.Controllers
         [Route("{roomId}/reservations")]
         public async Task<IActionResult> MakeReservation(int roomId, Reservation reservation, CancellationToken cancellationToken)
         {
+            var customerEmail = User.FindFirstValue(ClaimTypes.Email);
             var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var command = new MakeReservationCommand(roomId, Guid.Parse(customerId), reservation);
+
+            if (customerEmail == null || customerId == null)
+            {
+                return Unauthorized("User authentication details are invalid.");
+            }
+
+            var command = new MakeReservationCommand(roomId, Guid.Parse(customerId), customerEmail, reservation);
 
             return Ok(await _mediator.Send(command, cancellationToken));
         }

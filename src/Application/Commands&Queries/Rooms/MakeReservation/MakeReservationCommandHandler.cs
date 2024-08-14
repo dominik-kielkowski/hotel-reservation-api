@@ -47,7 +47,7 @@ namespace Application.Hotels.Rooms.MakeReservation
 
             await _unitOfWork.SaveChangesAsync();
 
-            var reservationConfirmedEvent = new ReservationConfirmedEvent(reservation.Id, command.userId, command.roomId, reservationBegin, reservationEnd);
+            var reservationConfirmedEvent = new ReservationConfirmedEvent(reservation.Id, command.userId, command.roomId, command.userEmail, reservationBegin, reservationEnd);
             await _publishEndpoint.Publish(reservationConfirmedEvent, cancellationToken);
 
             return new MakeReservationResult(true);
