@@ -5,23 +5,23 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-using System.Threading.Tasks;
-using Testcontainers.PostgreSql;
+using Testcontainers.MsSql;
 using Xunit;
 
-namespace HotelReservation.Tests
+namespace HotelReservation.Tests.Utilities
 {
-    public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
+    public class TestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        protected TestServer server;
-        protected HttpClient client;
-        private readonly PostgreSqlContainer _postgresContainer = new PostgreSqlBuilder()
-                .WithImage("postgres:latest")
-                .WithDatabase("HotelReservationWebsite")
-                .WithUsername("postgres")
-                .WithPassword("postgres")
+        private readonly MsSqlContainer _sqlServerContainer;
+
+        public TestWebAppFactory()
+        {
+            _sqlServerContainer = new MsSqlBuilder()
+                .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
+                .WithPassword("YourStrong@Passw0rd")
+                .WithEnvironment("ACCEPT_EULA", "Y")
                 .Build();
+        }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -35,14 +35,23 @@ namespace HotelReservation.Tests
             });
         }
 
-        public Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            return _postgresContainer.StartAsync();
+            await _sqlServerContainer.StartAsync();
+
+            using (var scope = Services.CreateScope())
+            {
+                var websiteContext = scope.ServiceProvider.GetRequiredService<WebsiteDbContext>();
+                await websiteContext.Database.MigrateAsync();
+
+                var identityContext = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+                await identityContext.Database.MigrateAsync();
+            }
         }
 
-        public new Task DisposeAsync()
+        public async Task DisposeAsync()
         {
-            return _postgresContainer.StopAsync();
+            await _sqlServerContainer.StopAsync();
         }
 
         private void RemoveDbContextOptions<TContext>(IServiceCollection services)
@@ -50,7 +59,7 @@ namespace HotelReservation.Tests
         {
             var descriptor = services.SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<TContext>));
 
-            if (descriptor is not null)
+            if (descriptor != null)
             {
                 services.Remove(descriptor);
             }
@@ -61,7 +70,7 @@ namespace HotelReservation.Tests
         {
             services.AddDbContext<TContext>(options =>
             {
-                options.UseNpgsql(_postgresContainer.GetConnectionString());
+                options.UseSqlServer(_sqlServerContainer.GetConnectionString());
             });
         }
     }

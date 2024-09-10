@@ -2,23 +2,26 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-EXPOSE 5000
-EXPOSE 5001
+EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["HotelReservationWebsite/HotelReservationWebsite.csproj", "HotelReservationWebsite/"]
-COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
-COPY ["Core/Core.csproj", "Core/"]
-RUN dotnet restore "src/HotelReservationWebsite/HotelReservationWebsite.csproj"
+COPY ["src/HotelReservationWebsite/HotelReservation.API.csproj", "src/HotelReservationWebsite/"]
+COPY ["src/Infrastructure/HotelReservation.Infrastructure.csproj", "src/Infrastructure/"]
+COPY ["src/Application/HotelReservation.Application.csproj", "src/Application/"]
+COPY ["src/Core/HotelReservation.Core.csproj", "src/Core/"]
+RUN dotnet restore "./src/HotelReservationWebsite/HotelReservation.API.csproj"
 COPY . .
-WORKDIR "HotelReservationWebsite"
-RUN dotnet build "HotelReservationWebsite.csproj" -c Release -o /app/build
+WORKDIR "/src/src/HotelReservationWebsite"
+RUN dotnet build "./HotelReservation.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "HotelReservationWebsite.csproj" -c Release -o /app/publish /p:UseAppHost=false
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./HotelReservation.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "HotelReservationWebsite.dll"]
+ENTRYPOINT ["dotnet", "HotelReservation.API.dll"]

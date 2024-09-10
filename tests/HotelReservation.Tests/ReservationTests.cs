@@ -5,13 +5,14 @@ using System.Net.Http.Headers;
 using Application.Users;
 using Core.Entities.Rooms;
 using Core.Entities.Hotels;
-using Application.Hotels.Rooms.AddReservation;
+using Application.Hotels.Rooms.MakeReservation;
+using HotelReservation.Tests.Utilities;
 
 namespace HotelReservation.Tests
 {
-    public class ReservationTests : BaseIntegrationTest
+    public class ReservationTests : BaseTest
     {
-        public ReservationTests(IntegrationTestWebAppFactory factory) : base(factory)
+        public ReservationTests(TestWebAppFactory factory) : base(factory)
         {
         }
 
@@ -57,7 +58,7 @@ namespace HotelReservation.Tests
                 CustomerId = Guid.Parse(user.Id)
             };
 
-            MakeReservationCommand command = new MakeReservationCommand(1, Guid.Parse(user.Id), reservation);
+            MakeReservationCommand command = new MakeReservationCommand(1, Guid.Parse(user.Id), "test@gmail.com" , reservation);
 
             HttpResponseMessage postUserResponse = await HttpClient.PostAsJsonAsync("api/Account/register", user);
 

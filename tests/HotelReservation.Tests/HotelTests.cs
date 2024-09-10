@@ -2,15 +2,16 @@
 using Core.Entities.Hotels;
 using Core.Entities.Rooms;
 using FluentAssertions;
+using HotelReservation.Tests.Utilities;
 using System.Net;
 using System.Net.Http.Json;
 using Xunit;
 
 namespace HotelReservation.Tests
 {
-    public class HotelTests : BaseIntegrationTest
+    public class HotelTests : BaseTest
     {
-        public HotelTests(IntegrationTestWebAppFactory factory) : base(factory)
+        public HotelTests(TestWebAppFactory factory) : base(factory)
         {
         }
 

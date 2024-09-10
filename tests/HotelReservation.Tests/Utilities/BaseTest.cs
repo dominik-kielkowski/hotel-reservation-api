@@ -6,15 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace HotelReservation.Tests
+namespace HotelReservation.Tests.Utilities
 {
-    public class BaseIntegrationTest : IClassFixture<IntegrationTestWebAppFactory>
+    public class BaseTest : IClassFixture<TestWebAppFactory>
     {
-        public BaseIntegrationTest(IntegrationTestWebAppFactory factory)
+        protected HttpClient HttpClient { get; }
+
+        public BaseTest(TestWebAppFactory factory)
         {
             HttpClient = factory.CreateClient();
         }
-
-        protected HttpClient HttpClient { get; set; }
     }
 }
