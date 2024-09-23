@@ -23,13 +23,13 @@ jobs:
           dotnet-version: '7.0.x'
           
       - name: Restore
-        run: dotnet restore ./HotelReservationWebsite.sln
+        run: dotnet restore ./HotelReservationAPI.sln
         
       - name: Build
-        run: dotnet build ./HotelReservationWebsite.sln --configuration Release --no-restore
+        run: dotnet build ./HotelReservationAPI.sln --configuration Release --no-restore
         
       - name: Publish
-        run: dotnet publish ./HotelReservationWebsite.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        run: dotnet publish ./HotelReservationAPI.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
         
       - name: Deployment
         uses: azure/webapps-deploy@v2
