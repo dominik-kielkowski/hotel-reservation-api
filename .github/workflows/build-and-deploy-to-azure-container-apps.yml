@@ -38,8 +38,8 @@ jobs:
         with:
           push: true
           tags: hotelreservationacr.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          file: ./src/HotelReservationWebsite/Dockerfile  # Adjusted the path to Dockerfile
-          context: ./src/HotelReservationWebsite  # Adjusted the build context to the Dockerfile's directory
+          file: ./src/HotelReservationWebsite/Dockerfile  # Dockerfile path
+          context: ./src/
           
   deploy-to-container-apps:
     permissions:
