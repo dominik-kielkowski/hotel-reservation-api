@@ -32,15 +32,15 @@ jobs:
           login-server: hotelreservationcontainerregistry.azurecr.io  # ACR login server
           username: ${{ secrets.ACR_USERNAME }}  # Use Azure AD Service Principal for secure login
           password: ${{ secrets.ACR_PASSWORD }}
-
+          
       - name: Build and push container image to ACR
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: hotelreservationacr.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          file: ./src/Dockerfile  # Adjust this path if necessary
-          context: .  # Adjust if your Dockerfile is in a subfolder
-
+          file: ./src/HotelReservationWebsite/Dockerfile  # Adjusted the path to Dockerfile
+          context: ./src/HotelReservationWebsite  # Adjusted the build context to the Dockerfile's directory
+          
   deploy-to-container-apps:
     permissions:
       contents: none
