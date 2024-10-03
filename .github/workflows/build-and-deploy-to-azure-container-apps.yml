@@ -38,7 +38,7 @@ jobs:
         with:
           push: true
           tags: hotelreservationacr.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          file: ./Dockerfile  # Adjust this path if necessary
+          file: ./src/Dockerfile  # Adjust this path if necessary
           context: .  # Adjust if your Dockerfile is in a subfolder
 
   deploy-to-container-apps:
