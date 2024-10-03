@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: hotelreservationacr.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: hotelreservationcontainerregistry.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
           file: ./src/HotelReservationWebsite/Dockerfile  # Dockerfile path
           context: ./src/
           
@@ -56,8 +56,8 @@ jobs:
       - name: Deploy to Azure Container Apps
         uses: azure/container-apps-deploy-action@v1
         with:
-          registryUrl: hotelreservationacr.azurecr.io  # Use your ACR URL
-          imageToDeploy: hotelreservationacr.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          registryUrl: hotelreservationcontainerregistry.azurecr.io  # Use your ACR URL
+          imageToDeploy: hotelreservationcontainerregistry.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
           targetPort: 80  # Adjust based on your application settings
           ingress: external
           containerAppName: ${{ env.CONTAINERAPPS_APP }}
