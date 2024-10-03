@@ -1,0 +1,65 @@
+name: Build and Deploy to Azure Container Apps
+
+env:
+  IMAGE_NAME: hotelreservationacr.azurecr.io/hotelreservationwebsite  # Update with your ACR name
+  CONTAINERAPPS_APP: hotel-reservation-container-app  # Set the name of your Azure Container App
+  CONTAINERAPPS_ENVIRONMENT: hotel-reservation-environment  # Your Azure Container App environment
+  RESOURCE_GROUP: hotel-reservation-website  # Your Azure Resource Group
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-push-container-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Azure Container Registry (ACR)
+        uses: azure/docker-login@v1
+        with:
+          login-server: hotelreservationcontainerregistry.azurecr.io  # ACR login server
+          username: ${{ secrets.ACR_USERNAME }}  # Use Azure AD Service Principal for secure login
+          password: ${{ secrets.ACR_PASSWORD }}
+          
+      - name: Build and push container image to ACR
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: hotelreservationacr.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          file: ./src/HotelReservationWebsite/Dockerfile  # Dockerfile path
+          context: ./src/
+          
+  deploy-to-container-apps:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: build-push-container-image
+
+    steps:
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Container Apps
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          registryUrl: hotelreservationacr.azurecr.io  # Use your ACR URL
+          imageToDeploy: hotelreservationacr.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          targetPort: 80  # Adjust based on your application settings
+          ingress: external
+          containerAppName: ${{ env.CONTAINERAPPS_APP }}
+          containerAppEnvironment: ${{ env.CONTAINERAPPS_ENVIRONMENT }}
+          resourceGroup: ${{ env.RESOURCE_GROUP }}
