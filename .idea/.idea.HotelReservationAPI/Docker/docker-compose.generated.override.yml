@@ -1,0 +1,20 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  hotelreservationwebsite:
+    build:
+      context: "C:\\Users\\Dominik\\source\\repos\\HotelReservationWebsite"
+      dockerfile: "src/HotelReservationWebsite/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net7.0/HotelReservation.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "hotelreservationwebsite:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Dominik\\.nuget\\packages:/root/.nuget/packages"
+    - "C:\\Users\\Dominik\\source\\repos\\HotelReservationWebsite\\src\\HotelReservationWebsite:/app:rw"
+    - "C:\\Users\\Dominik\\source\\repos\\HotelReservationWebsite:/src:rw"
+    working_dir: "/app"

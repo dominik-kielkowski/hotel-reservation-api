@@ -11,6 +11,7 @@ try
     builder.Services.AddControllers();
     builder.Services.AddApplicationServices(builder.Configuration);
     builder.Services.AddIdentityServices(builder.Configuration);
+    builder.Services.AddCors();
 
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -30,6 +31,9 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
+
+    app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+    .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
     app.MapControllers();
 
