@@ -16,7 +16,7 @@ namespace API.Common
         {
             services.AddDbContext<WebsiteDbContext>(opt =>
             {
-                opt.UseSqlServer(config.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging();
+                opt.UseSqlServer(config.GetValue<string>("DefaultConnection")).EnableSensitiveDataLogging();
             });
 
             services.AddStackExchangeRedisCache(redisOptions =>

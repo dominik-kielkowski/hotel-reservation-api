@@ -16,7 +16,7 @@ namespace API.Users
         {
             services.AddDbContext<AppIdentityDbContext>(opt =>
             {
-                opt.UseSqlServer(config.GetConnectionString("IdentityConnection")).EnableSensitiveDataLogging();
+                opt.UseSqlServer(config.GetValue<string>("IdentityConnection")).EnableSensitiveDataLogging();
             });
 
             services.AddIdentityCore<AppUser>(opt =>
