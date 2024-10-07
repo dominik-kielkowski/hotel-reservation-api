@@ -5,6 +5,7 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -17,7 +18,7 @@ jobs:
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag dominikkielkowski/hotel-reservation:$(date +%s)
+        run: docker build -f src/HotelReservationWebsite/Dockerfile -t dominikkielkowski/hotel-reservation:latest .
 
       - name: Push Docker image
-        run: docker push dominikkielkowski/hotel-reservation:$(date +%s)
+        run: docker push dominikkielkowski/hotel-reservation:latest
