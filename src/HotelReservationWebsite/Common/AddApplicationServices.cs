@@ -21,7 +21,7 @@ namespace API.Common
 
             services.AddStackExchangeRedisCache(redisOptions =>
             {
-                string connection = config.GetConnectionString("Redis");
+                string connection = config.GetValue<string>("Redis");
                 redisOptions.Configuration = connection;
             });
 
