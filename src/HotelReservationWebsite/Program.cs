@@ -34,7 +34,7 @@ try
     app.UseAuthorization();
 
     app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
-    .WithOrigins("https://hotel-reservation-web-client.blacksea-5eb9e640.polandcentral.azurecontainerapps.io/"));
+    .WithOrigins("https://hotel-reservation-web-client.blacksea-5eb9e640.polandcentral.azurecontainerapps.io"));
 
     app.MapControllers();
 
