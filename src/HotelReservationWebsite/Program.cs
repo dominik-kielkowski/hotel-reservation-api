@@ -2,6 +2,7 @@ using API.Common;
 using API.Users;
 using Infrastructure.Messaging;
 using Serilog;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 try
 {
@@ -32,8 +33,8 @@ try
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
-    .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+    app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+    .WithOrigins(builder.Configuration.GetValue<string>("https://hotel-reservation-web-client.blacksea-5eb9e640.polandcentral.azurecontainerapps.io/")));
 
     app.MapControllers();
 
