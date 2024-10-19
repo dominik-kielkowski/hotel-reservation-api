@@ -1,19 +1,14 @@
-﻿using Application.Hotels.Rooms.GetRooms;
-using Core.Common;
+﻿using Core.Common;
 using Core.Entities.Rooms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MediatR;
 
 namespace Application.Hotels.Rooms.GetRoomById
 {
-    public sealed class GetRoomsByIdQueryHandler
+    public sealed class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, RoomDto>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetRoomsByIdQueryHandler(IUnitOfWork unitOfWork)
+        public GetRoomByIdQueryHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -24,7 +19,7 @@ namespace Application.Hotels.Rooms.GetRoomById
 
             if (room == null)
             {
-                throw new InvalidOperationException("Room does not exhist");
+                throw new InvalidOperationException("Room does not exist");
             }
 
             return room.ToDto();

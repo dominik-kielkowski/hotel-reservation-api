@@ -29,10 +29,12 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRoomById(GetRoomByIdQuery query)
+        public async Task<IActionResult> GetRoomById(int id)
         {
+            var query = new GetRoomByIdQuery(id);
             return Ok(await _mediator.Send(query));
         }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateRoomToHotel(CreateRoomCommand command)

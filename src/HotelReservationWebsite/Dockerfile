@@ -12,7 +12,7 @@ COPY ["src/Application/HotelReservation.Application.csproj", "src/Application/"]
 COPY ["src/Core/HotelReservation.Core.csproj", "src/Core/"]
 RUN dotnet restore "./src/HotelReservationWebsite/HotelReservation.API.csproj"
 COPY . .
-WORKDIR "/src/src/HotelReservationWebsite"
+WORKDIR "/src/HotelReservationWebsite"
 RUN dotnet build "./HotelReservation.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

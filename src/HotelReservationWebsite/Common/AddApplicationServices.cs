@@ -16,12 +16,12 @@ namespace API.Common
         {
             services.AddDbContext<WebsiteDbContext>(opt =>
             {
-                opt.UseSqlServer(config.GetValue<string>("DefaultConnection")).EnableSensitiveDataLogging();
+                opt.UseSqlServer(config.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging();
             });
 
             services.AddStackExchangeRedisCache(redisOptions =>
             {
-                string connection = config.GetValue<string>("Redis");
+                string connection = config.GetConnectionString("Redis");
                 redisOptions.Configuration = connection;
             });
 
@@ -29,7 +29,6 @@ namespace API.Common
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.ConfigureMediatR();
             services.AddMassTransitWithRabbitMQ();
-
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddMemoryCache();
             services.AddSingleton<ICacheService, CacheService>();
@@ -54,6 +53,5 @@ namespace API.Common
 
             return services;
         }
-
     }
 }

@@ -22,8 +22,6 @@ try
 
     var app = builder.Build();
 
-    // Configure the HTTP request pipeline.
-
     app.UseSerilogRequestLogging();
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -34,7 +32,7 @@ try
     app.UseAuthorization();
 
     app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
-    .WithOrigins("https://hotel-reservation-web-client.blacksea-5eb9e640.polandcentral.azurecontainerapps.io"));
+    .WithOrigins("http://localhost:4200"));
 
     app.MapControllers();
 
