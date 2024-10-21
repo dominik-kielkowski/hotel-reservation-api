@@ -14,6 +14,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FD2107DC-47CB-497C-A154-A0ACD4A1A190}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{60561225-22D3-45CB-8DB9-DB0E6D059BC4}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelReservation.Tests", "tests\HotelReservation.Tests\HotelReservation.Tests.csproj", "{3161E915-80DF-4168-AC95-85C0F8773A90}"
 EndProject
