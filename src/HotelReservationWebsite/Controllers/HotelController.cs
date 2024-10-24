@@ -1,16 +1,13 @@
-﻿using API.Common;
-using Application.Commands_Queries.Hotels;
+﻿using Application.Commands_Queries.Hotels;
 using Application.Commands_Queries.Hotels.GetHotel;
 using Application.Commands_Queries.Hotels.HotelCommon;
 using Application.Commands_Queries.Hotels.UpdateHotel;
 using Application.Hotels.GetHotels;
-using Application.Hotels.Rooms.AddRoom;
-using Core.Common;
-using Core.Entities.Hotels;
+using HotelReservation.API.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace HotelReservation.API.Controllers
 {
     public class HotelController : BaseApiController
     {

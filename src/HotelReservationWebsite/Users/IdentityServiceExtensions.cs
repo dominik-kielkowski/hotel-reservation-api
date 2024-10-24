@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
-namespace API.Users
+namespace HotelReservation.API.Users
 {
     public static class IdentityServiceExtensions
     {

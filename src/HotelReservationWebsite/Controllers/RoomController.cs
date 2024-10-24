@@ -1,4 +1,4 @@
-﻿using API.Common;
+﻿using System.Security.Claims;
 using Application.Hotels.Rooms.AddRoom;
 using Application.Hotels.Rooms.DeleteRoom;
 using Application.Hotels.Rooms.GetRoomById;
@@ -6,12 +6,12 @@ using Application.Hotels.Rooms.GetRooms;
 using Application.Hotels.Rooms.MakeReservation;
 using Application.Hotels.Rooms.UpdateRoom;
 using Core.Entities.Rooms;
+using HotelReservation.API.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
-namespace API.Controllers
+namespace HotelReservation.API.Controllers
 {
     public class RoomController : BaseApiController
     {

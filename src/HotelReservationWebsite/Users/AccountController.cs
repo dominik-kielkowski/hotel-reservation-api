@@ -1,10 +1,10 @@
-﻿using API.Common;
-using Application.Users;
+﻿using Application.Users;
 using Core.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using HotelReservation.API.Common;
 
 namespace API.Users
 {

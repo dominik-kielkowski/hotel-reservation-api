@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Common
+namespace HotelReservation.API.Common
 {
     public static class MigrationExtensions
     {

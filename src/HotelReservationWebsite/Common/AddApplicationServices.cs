@@ -1,14 +1,14 @@
 ﻿using Application.Common;
 using Core.Common;
 using Core.User;
+using Infrastructure.Caching;
 using Infrastructure.Data;
+using Infrastructure.Messaging;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Caching;
 using Serilog;
-using Infrastructure.Messaging;
 
-namespace API.Common
+namespace HotelReservation.API.Common
 {
     public static class ApplicationServicesExtensions
     {

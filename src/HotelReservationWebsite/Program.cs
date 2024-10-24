@@ -1,50 +1,54 @@
-using API.Common;
-using API.Users;
-using Infrastructure.Messaging;
+using HotelReservation.API.Common;
+using HotelReservation.API.Users;
 using Serilog;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
-try
+namespace HotelReservation.API;
+
+public partial class Program
 {
-    Serilog.Debugging.SelfLog.Enable(Console.Error);
-    var builder = WebApplication.CreateBuilder(args);
+    public static void Main(string[] args)
+    {
+        try
+        {
+            Serilog.Debugging.SelfLog.Enable(Console.Error);
+            var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddControllers();
-    builder.Services.AddApplicationServices(builder.Configuration);
-    builder.Services.AddIdentityServices(builder.Configuration);
-    builder.Services.AddCors();
+            builder.Services.AddControllers();
+            builder.Services.AddApplicationServices(builder.Configuration);
+            builder.Services.AddIdentityServices(builder.Configuration);
+            builder.Services.AddCors();
 
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-    builder.Host.UseSerilog((context, configuration) =>
-        configuration.ReadFrom.Configuration(context.Configuration)
-    );
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Host.UseSerilog((context, configuration) =>
+                configuration.ReadFrom.Configuration(context.Configuration)
+            );
 
-    var app = builder.Build();
+            var app = builder.Build();
 
-    app.UseSerilogRequestLogging();
-    app.UseSwagger();
-    app.UseSwaggerUI();
+            app.UseSerilogRequestLogging();
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
-    app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
-    app.UseAuthentication();
-    app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-    app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
-    .WithOrigins("http://localhost:4200"));
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+                .WithOrigins("http://localhost:4200"));
 
-    app.MapControllers();
+            app.MapControllers();
 
-    app.Run();
+            app.Run();
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Application startup failed");
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
+    }
 }
-catch (Exception ex)
-{
-    Log.Fatal(ex, "Application startup failed");
-}
-finally
-{
-    Log.CloseAndFlush();
-}
-
-public partial class Program { }

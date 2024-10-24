@@ -1,7 +1,6 @@
 services:
   hotelreservationwebsite:
     container_name: hotelreservationwebsite
-    image: ${DOCKER_REGISTRY-}hotelreservationwebsite
     build:
       context: .
       dockerfile: src/HotelReservationWebsite/Dockerfile
@@ -14,7 +13,7 @@ services:
       - shared-network
   
   hotelreservationdatabase:
-    container_name: hotelreservationdatabase 
+    container_name: hotelreservationdatabase
     image: mcr.microsoft.com/mssql/server:2017-latest
     environment:
       - SA_PASSWORD=YourStrong@Passw0rd
