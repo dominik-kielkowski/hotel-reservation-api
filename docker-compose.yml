@@ -1,9 +1,7 @@
 services:
   hotelreservationwebsite:
     container_name: hotelreservationwebsite
-    build:
-      context: .
-      dockerfile: src/HotelReservationWebsite/Dockerfile
+    image: dominikkielkowski/hotel-reservation-api:latest
     ports:
       - "5000:5000"
       - "5001:5001"
@@ -46,6 +44,12 @@ services:
       - rabbitmq:/var/lib/rabbitmq
     networks:
       - shared-network
+  
+  angular-web-client:
+    container_name: angular-web-client
+    image: dominikkielkowski/hotel-reservation-web-client:development
+    ports:
+      - "4200:80"
 
 volumes:
   hotelreservationwebsite:
