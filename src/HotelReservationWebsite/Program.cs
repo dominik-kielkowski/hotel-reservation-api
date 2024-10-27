@@ -20,7 +20,7 @@ public partial class Program
                 .AddEnvironmentVariables();
 
             builder.Services.AddControllers();
-            builder.Services.AddApplicationServices(builder.Configuration);
+            builder.Services.AddApplicationServices(builder.Configuration, builder.Environment);
             builder.Services.AddIdentityServices(builder.Configuration);
             
             var corsSettings = builder.Configuration.GetSection("CorsSettings");
