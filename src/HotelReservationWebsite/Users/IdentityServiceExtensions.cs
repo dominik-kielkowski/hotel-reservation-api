@@ -12,19 +12,41 @@ namespace HotelReservation.API.Users
     public static class IdentityServiceExtensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services,
-            IConfiguration config)
+            IConfiguration config, IHostEnvironment env)
         {
+            string identityConnectionString;
+
+            if (env.IsDevelopment())
+            {
+                identityConnectionString = config.GetConnectionString("IdentityConnection");
+            }
+            else
+            {
+                identityConnectionString = Environment.GetEnvironmentVariable("IdentityConnection") 
+                    ?? throw new InvalidOperationException("IdentityConnection environment variable is not set.");
+            }
+
             services.AddDbContext<AppIdentityDbContext>(opt =>
             {
-                opt.UseSqlServer(config.GetConnectionString("IdentityConnection")).EnableSensitiveDataLogging();
+                opt.UseSqlServer(identityConnectionString).EnableSensitiveDataLogging();
             });
 
             services.AddIdentityCore<AppUser>(opt =>
             {
-                // add identity options here
+                // Configure identity options if needed
             })
             .AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddSignInManager<SignInManager<AppUser>>();
+
+            var tokenKey = env.IsDevelopment()
+                ? config["Token:Key"]
+                : Environment.GetEnvironmentVariable("TokenKey") 
+                    ?? throw new InvalidOperationException("TokenKey environment variable is not set.");
+
+            var tokenIssuer = env.IsDevelopment()
+                ? config["Token:Issuer"]
+                : Environment.GetEnvironmentVariable("TokenIssuer") 
+                    ?? throw new InvalidOperationException("TokenIssuer environment variable is not set.");
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -32,13 +54,12 @@ namespace HotelReservation.API.Users
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"])),
-                        ValidIssuer = config["Token:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey)),
+                        ValidIssuer = tokenIssuer,
                         ValidateIssuer = true,
                         ValidateAudience = false
                     };
                 });
-
 
             services.AddAuthorization();
 

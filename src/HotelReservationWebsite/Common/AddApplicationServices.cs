@@ -19,13 +19,11 @@ namespace HotelReservation.API.Common
 
             if (env.IsDevelopment())
             {
-                // Use connection strings from appsettings.json or appsettings.Development.json
                 defaultConnectionString = config.GetConnectionString("DefaultConnection");
                 redisConnectionString = config.GetConnectionString("Redis");
             }
             else
             {
-                // Use environment variables for production
                 defaultConnectionString = Environment.GetEnvironmentVariable("DefaultConnection") ?? throw new InvalidOperationException("DefaultConnection environment variable is not set.");
                 redisConnectionString = Environment.GetEnvironmentVariable("Redis") ?? throw new InvalidOperationException("Redis environment variable is not set.");
             }

@@ -12,31 +12,39 @@ public partial class Program
         {
             Serilog.Debugging.SelfLog.Enable(Console.Error);
             var builder = WebApplication.CreateBuilder(args);
-            
-            builder.Configuration
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables();
 
             builder.Services.AddControllers();
             builder.Services.AddApplicationServices(builder.Configuration, builder.Environment);
-            builder.Services.AddIdentityServices(builder.Configuration);
-            
-            var corsSettings = builder.Configuration.GetSection("CorsSettings");
+            builder.Services.AddIdentityServices(builder.Configuration, builder.Environment);
+
             builder.Services.AddCors(options =>
             {
-                options.AddDefaultPolicy(builder =>
+                options.AddDefaultPolicy(policy =>
                 {
-                    builder.WithOrigins(corsSettings.GetSection("AllowedOrigins").Get<string[]>())
-                        .WithMethods(corsSettings.GetSection("AllowedMethods").Get<string[]>())
-                        .WithHeaders(corsSettings.GetSection("AllowedHeaders").Get<string[]>())
-                        .AllowCredentials();
+                    if (builder.Environment.IsDevelopment())
+                    {
+                        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                    }
+                    else
+                    {
+                        var allowedOrigins = Environment.GetEnvironmentVariable("Cors")?.Split(",") ?? builder.Configuration.GetSection("CorsSettings:AllowedOrigins").Get<string[]>();
+                        var allowedMethods = builder.Configuration.GetSection("CorsSettings:AllowedMethods").Get<string[]>() ?? new[] { "GET", "POST", "PUT", "DELETE" };
+                        var allowedHeaders = builder.Configuration.GetSection("CorsSettings:AllowedHeaders").Get<string[]>() ?? new[] { "Content-Type", "Authorization" };
+
+                        if (allowedOrigins?.Length > 0)
+                        {
+                            policy.WithOrigins(allowedOrigins)
+                                .WithMethods(allowedMethods)
+                                .WithHeaders(allowedHeaders)
+                                .AllowCredentials();
+                        }
+                    }
                 });
             });
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
             builder.Host.UseSerilog((context, configuration) =>
                 configuration.ReadFrom.Configuration(context.Configuration)
             );
@@ -50,11 +58,9 @@ public partial class Program
 
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseCors();
 
             app.MapControllers();
-
             app.Run();
         }
         catch (Exception ex)
