@@ -12,11 +12,28 @@ public partial class Program
         {
             Serilog.Debugging.SelfLog.Enable(Console.Error);
             var builder = WebApplication.CreateBuilder(args);
+            
+            builder.Configuration
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
 
             builder.Services.AddControllers();
             builder.Services.AddApplicationServices(builder.Configuration);
             builder.Services.AddIdentityServices(builder.Configuration);
-            builder.Services.AddCors();
+            
+            var corsSettings = builder.Configuration.GetSection("CorsSettings");
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins(corsSettings.GetSection("AllowedOrigins").Get<string[]>())
+                        .WithMethods(corsSettings.GetSection("AllowedMethods").Get<string[]>())
+                        .WithHeaders(corsSettings.GetSection("AllowedHeaders").Get<string[]>())
+                        .AllowCredentials();
+                });
+            });
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -29,14 +46,12 @@ public partial class Program
             app.UseSerilogRequestLogging();
             app.UseSwagger();
             app.UseSwaggerUI();
-
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
-                .WithOrigins("http://localhost:4200"));
+            app.UseCors();
 
             app.MapControllers();
 

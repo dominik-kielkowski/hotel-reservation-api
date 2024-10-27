@@ -14,15 +14,17 @@ namespace HotelReservation.API.Common
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            string defaultConnectionString = config.GetConnectionString("DefaultConnection");
+            string redisConnectionString = config.GetConnectionString("Redis");
+
             services.AddDbContext<WebsiteDbContext>(opt =>
             {
-                opt.UseSqlServer(config.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging();
+                opt.UseSqlServer(defaultConnectionString).EnableSensitiveDataLogging();
             });
 
             services.AddStackExchangeRedisCache(redisOptions =>
             {
-                string connection = config.GetConnectionString("Redis");
-                redisOptions.Configuration = connection;
+                redisOptions.Configuration = redisConnectionString;
             });
 
             services.AddScoped<ITokenService, TokenService>();
