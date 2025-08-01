@@ -30,7 +30,7 @@ services:
       - "6379:6379"
     networks:
       - shared-network
-  
+
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:management-alpine
@@ -44,12 +44,14 @@ services:
       - rabbitmq:/var/lib/rabbitmq
     networks:
       - shared-network
-  
+
   angular-web-client:
     container_name: angular-web-client
     image: dominikkielkowski/hotel-reservation-web-client:development
     ports:
       - "4200:80"
+    networks:
+      - shared-network
 
 volumes:
   hotelreservationwebsite:
@@ -58,3 +60,4 @@ volumes:
 
 networks:
   shared-network:
+    driver: bridge
