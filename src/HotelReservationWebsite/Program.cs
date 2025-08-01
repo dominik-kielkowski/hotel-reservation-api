@@ -23,7 +23,7 @@ public partial class Program
                 {
                     if (builder.Environment.IsDevelopment())
                     {
-                        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
                     }
                     else
                     {
