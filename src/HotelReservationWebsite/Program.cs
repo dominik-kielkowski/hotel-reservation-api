@@ -1,5 +1,6 @@
 using HotelReservation.API.Common;
 using HotelReservation.API.Users;
+using HotelReservation.Infrastructure.Extensions;
 using Serilog;
 
 namespace HotelReservation.API;
@@ -14,33 +15,10 @@ public partial class Program
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
+            
             builder.Services.AddApplicationServices(builder.Configuration, builder.Environment);
             builder.Services.AddIdentityServices(builder.Configuration, builder.Environment);
-
-            builder.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(policy =>
-                {
-                    if (builder.Environment.IsDevelopment())
-                    {
-                        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                    }
-                    else
-                    {
-                        var allowedOrigins = Environment.GetEnvironmentVariable("Cors")?.Split(",") ?? builder.Configuration.GetSection("CorsSettings:AllowedOrigins").Get<string[]>();
-                        var allowedMethods = builder.Configuration.GetSection("CorsSettings:AllowedMethods").Get<string[]>() ?? new[] { "GET", "POST", "PUT", "DELETE" };
-                        var allowedHeaders = builder.Configuration.GetSection("CorsSettings:AllowedHeaders").Get<string[]>() ?? new[] { "Content-Type", "Authorization" };
-
-                        if (allowedOrigins?.Length > 0)
-                        {
-                            policy.WithOrigins(allowedOrigins)
-                                .WithMethods(allowedMethods)
-                                .WithHeaders(allowedHeaders)
-                                .AllowCredentials();
-                        }
-                    }
-                });
-            });
+            builder.Services.AddCorsExtension(builder.Configuration, builder.Environment);
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
