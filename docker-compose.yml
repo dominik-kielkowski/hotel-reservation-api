@@ -1,7 +1,7 @@
 services:
   hotelreservationwebsite:
     container_name: hotelreservationwebsite
-    image: dominikkielkowski/hotel-reservation-api:latest
+    image: ghcr.io/dominik-kielkowski/hotel-reservation-api:latest
     ports:
       - "5000:5000"
       - "5001:5001"
@@ -10,18 +10,18 @@ services:
     networks:
       - shared-network
   
-  hotelreservationdatabase:
-    container_name: hotelreservationdatabase
-    image: mcr.microsoft.com/mssql/server:2017-latest
-    environment:
-      - SA_PASSWORD=YourStrong@Passw0rd
-      - ACCEPT_EULA=Y
-    ports:
-      - "1433:1433"
-    volumes:
-      - hotelreservationdatabase:/var/opt/mssql
-    networks:
-      - shared-network
+#  hotelreservationdatabase:
+#    container_name: hotelreservationdatabase
+#    image: mcr.microsoft.com/mssql/server:2017-latest
+#    environment:
+#      - SA_PASSWORD=YourStrong@Passw0rd
+#      - ACCEPT_EULA=Y
+#    ports:
+#      - "1433:1433"
+#    volumes:
+#      - hotelreservationdatabase:/var/opt/mssql
+#    networks:
+#      - shared-network
 
   redis:
     container_name: redis
@@ -45,13 +45,13 @@ services:
     networks:
       - shared-network
 
-  angular-web-client:
-    container_name: angular-web-client
-    image: dominikkielkowski/hotel-reservation-web-client:development
-    ports:
-      - "4200:80"
-    networks:
-      - shared-network
+#  angular-web-client:
+#    container_name: angular-web-client
+#    image: dominikkielkowski/hotel-reservation-web-client:development
+#    ports:
+#      - "4200:80"
+#    networks:
+#      - shared-network
 
 volumes:
   hotelreservationwebsite:
