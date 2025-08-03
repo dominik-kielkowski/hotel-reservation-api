@@ -1,8 +1,8 @@
-namespace HotelReservation.Infrastructure.Extensions;
+namespace HotelReservation.API.Extensions;
 
 public static class CorsExtensions
 {
-    public static IServiceCollection AddCorsExtension(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
+    public static IServiceCollection AddCorsExtension(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         services.AddCors(options =>
         {

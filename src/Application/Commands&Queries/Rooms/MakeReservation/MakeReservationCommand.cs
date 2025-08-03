@@ -1,8 +1,7 @@
 ﻿using Core.Entities.Rooms;
 using MediatR;
-using System.Windows.Input;
 
-namespace Application.Hotels.Rooms.MakeReservation
+namespace HotelReservation.Application.Commands_Queries.Rooms.MakeReservation
 {
     public sealed record MakeReservationCommand(int roomId, Guid userId, string userEmail, Reservation reservation) : IRequest<MakeReservationResult>;
 

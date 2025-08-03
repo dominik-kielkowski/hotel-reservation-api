@@ -1,14 +1,10 @@
-﻿using System.Security.Claims;
-using Application.Hotels.Rooms.AddRoom;
+﻿using Application.Hotels.Rooms.AddRoom;
 using Application.Hotels.Rooms.DeleteRoom;
 using Application.Hotels.Rooms.GetRoomById;
 using Application.Hotels.Rooms.GetRooms;
-using Application.Hotels.Rooms.MakeReservation;
 using Application.Hotels.Rooms.UpdateRoom;
-using Core.Entities.Rooms;
 using HotelReservation.API.Common;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelReservation.API.Controllers
@@ -54,22 +50,22 @@ namespace HotelReservation.API.Controllers
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpPost]
-        [Authorize]
-        [Route("{roomId}/reservations")]
-        public async Task<IActionResult> MakeReservation(int roomId, Reservation reservation, CancellationToken cancellationToken)
-        {
-            var customerEmail = User.FindFirstValue(ClaimTypes.Email);
-            var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (customerEmail == null || customerId == null)
-            {
-                return Unauthorized("User authentication details are invalid.");
-            }
-
-            var command = new MakeReservationCommand(roomId, Guid.Parse(customerId), customerEmail, reservation);
-
-            return Ok(await _mediator.Send(command, cancellationToken));
-        }
+        // [HttpPost]
+        // [Authorize]
+        // [Route("{roomId}/reservations")]
+        // public async Task<IActionResult> MakeReservation(int roomId, Reservation reservation, CancellationToken cancellationToken)
+        // {
+        //     var customerEmail = User.FindFirstValue(ClaimTypes.Email);
+        //     var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //
+        //     if (customerEmail == null || customerId == null)
+        //     {
+        //         return Unauthorized("User authentication details are invalid.");
+        //     }
+        //
+        //     var command = new MakeReservationCommand(roomId, Guid.Parse(customerId), customerEmail, reservation);
+        //
+        //     return Ok(await _mediator.Send(command, cancellationToken));
+        // }
     }
 }

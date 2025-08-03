@@ -6,6 +6,7 @@ using Application.Users;
 using Core.Entities.Rooms;
 using Core.Entities.Hotels;
 using Application.Hotels.Rooms.MakeReservation;
+using HotelReservation.Application.Commands_Queries.Rooms.MakeReservation;
 using HotelReservation.Tests.Utilities;
 
 namespace HotelReservation.Tests

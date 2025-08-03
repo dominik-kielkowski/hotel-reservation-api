@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Core.User;
 using Infrastructure.Identity;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,8 @@ namespace HotelReservation.API.Users
         {
             string identityConnectionString;
 
+            services.AddScoped<ITokenService, TokenService>();
+            
             if (env.IsDevelopment())
             {
                 identityConnectionString = config.GetConnectionString("IdentityConnection");
